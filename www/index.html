@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Cordova App</title>
+        <meta
+            name="viewport"
+            content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"
+        />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="msapplication-tap-highlight" content="no" />
+        <link rel="icon" type="image/x-icon" href="./assets/icon/favicon.ico" />
+        <link rel="manifest" href="./manifest.json" />
+        <link rel="stylesheet" href="./css/style.css" />
+        <meta name="theme-color" content="#31d53d" />
+    </head>
+    <body>
+        <div id="app">
+            <header>
+                <h1>Cordova App</h1>
+            </header>
+            <main>
+                <section>
+                    <h2>WebView Information</h2>
+                    <div class="input-container">
+                        <div class="info-card">
+                            <strong>User Agent</strong>
+                            <div id="user-agent" class="value">-</div>
+                        </div>
+                    </div>
+                </section>
+                <hr />
+                <section>
+                    <h2>Safe Area Insets</h2>
+                    <p>Live values (updates on rotation/resize):</p>
+                    <div class="section-container">
+                        <h3>Browser env() Variables</h3>
+                        <div class="grid-2col">
+                            <div class="env-card">
+                                <strong>env(safe-area-inset-top)</strong>
+                                <div id="env-inset-top" class="value">-</div>
+                            </div>
+                            <div class="env-card">
+                                <strong>env(safe-area-inset-right)</strong>
+                                <div id="env-inset-right" class="value">-</div>
+                            </div>
+                            <div class="env-card">
+                                <strong>env(safe-area-inset-bottom)</strong>
+                                <div id="env-inset-bottom" class="value">-</div>
+                            </div>
+                            <div class="env-card">
+                                <strong>env(safe-area-inset-left)</strong>
+                                <div id="env-inset-left" class="value">-</div>
+                            </div>
+                        </div>
+                        <h3>Custom CSS Properties (--safe-area-inset-*)</h3>
+                        <div class="grid-2col-spaced">
+                            <div class="plugin-card">
+                                <strong>--safe-area-inset-top</strong>
+                                <div id="plugin-inset-top" class="value">-</div>
+                            </div>
+                            <div class="plugin-card">
+                                <strong>--safe-area-inset-right</strong>
+                                <div id="plugin-inset-right" class="value">
+                                    -
+                                </div>
+                            </div>
+                            <div class="plugin-card">
+                                <strong>--safe-area-inset-bottom</strong>
+                                <div id="plugin-inset-bottom" class="value">
+                                    -
+                                </div>
+                            </div>
+                            <div class="plugin-card">
+                                <strong>--safe-area-inset-left</strong>
+                                <div id="plugin-inset-left" class="value">
+                                    -
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <hr />
+                <section>
+                    <h2>Status Bar Control</h2>
+                    <div class="input-container">
+                        <button id="toggle-statusbar">Toggle Status Bar</button>
+                    </div>
+                </section>
+                <hr />
+                <section>
+                    <h2>Input Field</h2>
+                    <div class="input-container">
+                        <input type="text" placeholder="Enter text here..." />
+                    </div>
+                </section>
+            </main>
+        </div>
+        <script src="cordova.js"></script>
+        <script>
+            function showStatus(message, isError = false) {
+                const statusEl = document.getElementById("api-status");
+                statusEl.textContent = message;
+                statusEl.style.display = "block";
+                statusEl.style.backgroundColor = isError
+                    ? "#ffebee"
+                    : "#e3f2fd";
+                statusEl.style.borderLeftColor = isError
+                    ? "#f44336"
+                    : "#2196f3";
+                statusEl.style.color = isError ? "#c62828" : "#1565c0";
+                setTimeout(() => {
+                    statusEl.style.display = "none";
+                }, 3000);
+            }
+
+            function updateSafeAreaInsets() {
+                const rootStyle = getComputedStyle(document.documentElement);
+                const pluginTopValue =
+                    rootStyle
+                        .getPropertyValue("--safe-area-inset-top")
+                        .trim() || "-";
+                const pluginRightValue =
+                    rootStyle
+                        .getPropertyValue("--safe-area-inset-right")
+                        .trim() || "-";
+                const pluginBottomValue =
+                    rootStyle
+                        .getPropertyValue("--safe-area-inset-bottom")
+                        .trim() || "-";
+                const pluginLeftValue =
+                    rootStyle
+                        .getPropertyValue("--safe-area-inset-left")
+                        .trim() || "-";
+                document.getElementById("plugin-inset-top").textContent =
+                    pluginTopValue;
+                document.getElementById("plugin-inset-right").textContent =
+                    pluginRightValue;
+                document.getElementById("plugin-inset-bottom").textContent =
+                    pluginBottomValue;
+                document.getElementById("plugin-inset-left").textContent =
+                    pluginLeftValue;
+                const envDiv = document.createElement("div");
+                envDiv.style.cssText =
+                    "position: fixed; top: 0; left: 0; width: 1px; height: 1px; pointer-events: none; opacity: 0; padding-top: env(safe-area-inset-top, 0px); padding-right: env(safe-area-inset-right, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); padding-left: env(safe-area-inset-left, 0px);";
+                document.body.appendChild(envDiv);
+                const envStyle = window.getComputedStyle(envDiv);
+                const envTopValue = envStyle.paddingTop || "-";
+                const envRightValue = envStyle.paddingRight || "-";
+                const envBottomValue = envStyle.paddingBottom || "-";
+                const envLeftValue = envStyle.paddingLeft || "-";
+                document.body.removeChild(envDiv);
+                document.getElementById("env-inset-top").textContent =
+                    envTopValue;
+                document.getElementById("env-inset-right").textContent =
+                    envRightValue;
+                document.getElementById("env-inset-bottom").textContent =
+                    envBottomValue;
+                document.getElementById("env-inset-left").textContent =
+                    envLeftValue;
+                console.log(
+                    "Safe Area Insets Comparison:",
+                    JSON.stringify({
+                        plugin: {
+                            top: pluginTopValue,
+                            right: pluginRightValue,
+                            bottom: pluginBottomValue,
+                            left: pluginLeftValue,
+                        },
+                        browser: {
+                            top: envTopValue,
+                            right: envRightValue,
+                            bottom: envBottomValue,
+                            left: envLeftValue,
+                        },
+                    }),
+                );
+            }
+            function updateUserAgent() {
+                const userAgent = navigator.userAgent || "-";
+                document.getElementById("user-agent").textContent = userAgent;
+                console.log("User Agent:", userAgent);
+            }
+
+            window.addEventListener("DOMContentLoaded", function () {
+                console.log("DOMContentLoaded triggered");
+                updateSafeAreaInsets();
+                updateUserAgent();
+            });
+            window.addEventListener("resize", function () {
+                console.log("resize triggered");
+                updateSafeAreaInsets();
+            });
+            if (window.screen && window.screen.orientation) {
+                window.screen.orientation.addEventListener(
+                    "change",
+                    function () {
+                        updateSafeAreaInsets();
+                    },
+                );
+            }
+            window.addEventListener("orientationchange", function () {
+                console.log("orientationchange triggered");
+                updateSafeAreaInsets();
+            });
+            document.addEventListener("deviceready", function () {
+                console.log("deviceready triggered");
+                updateSafeAreaInsets();
+                updateUserAgent();
+            });
+            // Listen for MutationObserver to catch when plugin updates CSS variables
+            const observer = new MutationObserver(function (mutations) {
+                mutations.forEach(function (mutation) {
+                    if (
+                        mutation.type === "attributes" &&
+                        mutation.attributeName === "style"
+                    ) {
+                        console.log("mutation observer triggered");
+                        updateSafeAreaInsets();
+                    }
+                });
+            });
+
+            // Observe changes to document.documentElement style attribute
+            observer.observe(document.documentElement, {
+                attributes: true,
+                attributeFilter: ["style"],
+            });
+
+            document
+                .getElementById("toggle-statusbar")
+                .addEventListener("click", function () {
+                    if (
+                        window.statusbar &&
+                        typeof window.statusbar.visible === "boolean"
+                    ) {
+                        window.statusbar.visible = !window.statusbar.visible;
+                        if (window.statusbar.visible) {
+                            showStatus("Status Bar Hidden");
+                        } else {
+                            showStatus("Status Bar Shown");
+                        }
+                    } else {
+                        showStatus(
+                            "cordova built-in statusbar plugin not available",
+                            true,
+                        );
+                    }
+                });
+
+            updateSafeAreaInsets();
+        </script>
+    </body>
+</html>

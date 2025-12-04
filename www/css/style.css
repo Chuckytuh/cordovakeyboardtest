@@ -1,0 +1,183 @@
+html,
+body {
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+}
+
+body {
+    background-color: #fff;
+}
+
+/* App Container */
+#app {
+    padding-top: var(--safe-area-inset-top, env(safe-area-inset-top, 0px));
+    padding-right: var(
+        --safe-area-inset-right,
+        env(safe-area-inset-right, 0px)
+    );
+    padding-bottom: var(
+        --safe-area-inset-bottom,
+        env(safe-area-inset-bottom, 0px)
+    );
+    padding-left: var(--safe-area-inset-left, env(safe-area-inset-left, 0px));
+    min-height: 100vh;
+    box-sizing: border-box;
+}
+
+/* Header */
+header {
+    background-color: #73b5f6;
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 1.5em;
+}
+
+/* Main */
+main {
+    padding: 20px;
+    font-family:
+        -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial,
+        sans-serif;
+}
+
+/* Section Headings */
+section h2 {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+}
+
+section > p {
+    color: #666;
+    margin-bottom: 20px;
+}
+
+/* Section Container */
+.section-container {
+    margin-bottom: 30px;
+}
+
+/* Subsection Headings */
+section h3 {
+    font-size: 1em;
+    margin-bottom: 15px;
+    color: #555;
+}
+
+/* Grid Layouts */
+.grid-2col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.grid-2col-spaced {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+/* Plugin Inset Cards (Blue) */
+.plugin-card {
+    background-color: #e8f4fd;
+    padding: 15px;
+    border-radius: 8px;
+    border: 2px solid #73b5f6;
+}
+
+.plugin-card strong {
+    display: block;
+    color: #1976d2;
+    margin-bottom: 8px;
+    font-size: 0.9em;
+}
+
+.plugin-card .value {
+    font-size: 1.3em;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Env Cards (Gray) */
+.env-card {
+    background-color: #f5f5f5;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+}
+
+.env-card strong {
+    display: block;
+    color: #666;
+    margin-bottom: 8px;
+    font-size: 0.9em;
+}
+
+.env-card .value {
+    font-size: 1.3em;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Info Card */
+.info-card {
+    background-color: #f5f5f5;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+}
+
+.info-card strong {
+    display: block;
+    color: #666;
+    margin-bottom: 8px;
+    font-size: 0.9em;
+}
+
+.info-card .value {
+    font-size: 0.85em;
+    color: #333;
+    word-break: break-all;
+    line-height: 1.5;
+}
+
+/* Horizontal Rule */
+hr {
+    border: none;
+    border-top: 1px solid #eee;
+    margin: 30px 0;
+}
+
+/* Input Section */
+.input-container {
+    margin-bottom: 20px;
+}
+
+.input-container input[type="text"] {
+    width: 100%;
+    max-width: 400px;
+    padding: 12px 16px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 1em;
+    font-family: inherit;
+    box-sizing: border-box;
+}
+
+.input-container button {
+    padding: 12px 24px;
+    font-size: 1em;
+    background-color: #73b5f6;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
