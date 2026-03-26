@@ -34,50 +34,64 @@
                     <h2>Safe Area Insets</h2>
                     <p>Live values (updates on rotation/resize):</p>
                     <div class="section-container">
-                        <h3>Browser env() Variables</h3>
-                        <div class="grid-2col">
-                            <div class="env-card">
-                                <strong>env(safe-area-inset-top)</strong>
-                                <div id="env-inset-top" class="value">-</div>
-                            </div>
-                            <div class="env-card">
-                                <strong>env(safe-area-inset-right)</strong>
-                                <div id="env-inset-right" class="value">-</div>
-                            </div>
-                            <div class="env-card">
-                                <strong>env(safe-area-inset-bottom)</strong>
-                                <div id="env-inset-bottom" class="value">-</div>
-                            </div>
-                            <div class="env-card">
-                                <strong>env(safe-area-inset-left)</strong>
-                                <div id="env-inset-left" class="value">-</div>
-                            </div>
-                        </div>
-                        <h3>Custom CSS Properties (--safe-area-inset-*)</h3>
-                        <div class="grid-2col-spaced">
-                            <div class="plugin-card">
-                                <strong>--safe-area-inset-top</strong>
-                                <div id="plugin-inset-top" class="value">-</div>
-                            </div>
-                            <div class="plugin-card">
-                                <strong>--safe-area-inset-right</strong>
-                                <div id="plugin-inset-right" class="value">
-                                    -
+                        <section id="env-section">
+                            <h3>Browser env() Variables</h3>
+                            <div class="grid-2col">
+                                <div class="env-card">
+                                    <strong>env(safe-area-inset-top)</strong>
+                                    <div id="env-inset-top" class="value">
+                                        -
+                                    </div>
+                                </div>
+                                <div class="env-card">
+                                    <strong>env(safe-area-inset-right)</strong>
+                                    <div id="env-inset-right" class="value">
+                                        -
+                                    </div>
+                                </div>
+                                <div class="env-card">
+                                    <strong>env(safe-area-inset-bottom)</strong>
+                                    <div id="env-inset-bottom" class="value">
+                                        -
+                                    </div>
+                                </div>
+                                <div class="env-card">
+                                    <strong>env(safe-area-inset-left)</strong>
+                                    <div id="env-inset-left" class="value">
+                                        -
+                                    </div>
                                 </div>
                             </div>
-                            <div class="plugin-card">
-                                <strong>--safe-area-inset-bottom</strong>
-                                <div id="plugin-inset-bottom" class="value">
-                                    -
+                        </section>
+                        <section id="plugin-section">
+                            <h3>Custom CSS Properties (--safe-area-inset-*)</h3>
+                            <div class="grid-2col-spaced">
+                                <div class="plugin-card">
+                                    <strong>--safe-area-inset-top</strong>
+                                    <div id="plugin-inset-top" class="value">
+                                        -
+                                    </div>
+                                </div>
+                                <div class="plugin-card">
+                                    <strong>--safe-area-inset-right</strong>
+                                    <div id="plugin-inset-right" class="value">
+                                        -
+                                    </div>
+                                </div>
+                                <div class="plugin-card">
+                                    <strong>--safe-area-inset-bottom</strong>
+                                    <div id="plugin-inset-bottom" class="value">
+                                        -
+                                    </div>
+                                </div>
+                                <div class="plugin-card">
+                                    <strong>--safe-area-inset-left</strong>
+                                    <div id="plugin-inset-left" class="value">
+                                        -
+                                    </div>
                                 </div>
                             </div>
-                            <div class="plugin-card">
-                                <strong>--safe-area-inset-left</strong>
-                                <div id="plugin-inset-left" class="value">
-                                    -
-                                </div>
-                            </div>
-                        </div>
+                        </section>
                     </div>
                 </section>
                 <hr />
@@ -98,48 +112,41 @@
         </div>
         <script src="cordova.js"></script>
         <script>
-            function showStatus(message, isError = false) {
-                const statusEl = document.getElementById("api-status");
-                statusEl.textContent = message;
-                statusEl.style.display = "block";
-                statusEl.style.backgroundColor = isError
-                    ? "#ffebee"
-                    : "#e3f2fd";
-                statusEl.style.borderLeftColor = isError
-                    ? "#f44336"
-                    : "#2196f3";
-                statusEl.style.color = isError ? "#c62828" : "#1565c0";
-                setTimeout(() => {
-                    statusEl.style.display = "none";
-                }, 3000);
-            }
-
             function updateSafeAreaInsets() {
-                const rootStyle = getComputedStyle(document.documentElement);
-                const pluginTopValue =
-                    rootStyle
-                        .getPropertyValue("--safe-area-inset-top")
-                        .trim() || "-";
-                const pluginRightValue =
-                    rootStyle
-                        .getPropertyValue("--safe-area-inset-right")
-                        .trim() || "-";
-                const pluginBottomValue =
-                    rootStyle
-                        .getPropertyValue("--safe-area-inset-bottom")
-                        .trim() || "-";
-                const pluginLeftValue =
-                    rootStyle
-                        .getPropertyValue("--safe-area-inset-left")
-                        .trim() || "-";
-                document.getElementById("plugin-inset-top").textContent =
-                    pluginTopValue;
-                document.getElementById("plugin-inset-right").textContent =
-                    pluginRightValue;
-                document.getElementById("plugin-inset-bottom").textContent =
-                    pluginBottomValue;
-                document.getElementById("plugin-inset-left").textContent =
-                    pluginLeftValue;
+                const pluginSection = document.getElementById("plugin-section");
+                if (!!window.InsetInjector) {
+                    pluginSection.style.display = "block";
+                    const rootStyle = getComputedStyle(
+                        document.documentElement,
+                    );
+                    const pluginTopValue =
+                        rootStyle
+                            .getPropertyValue("--safe-area-inset-top")
+                            .trim() || "-";
+                    const pluginRightValue =
+                        rootStyle
+                            .getPropertyValue("--safe-area-inset-right")
+                            .trim() || "-";
+                    const pluginBottomValue =
+                        rootStyle
+                            .getPropertyValue("--safe-area-inset-bottom")
+                            .trim() || "-";
+                    const pluginLeftValue =
+                        rootStyle
+                            .getPropertyValue("--safe-area-inset-left")
+                            .trim() || "-";
+                    document.getElementById("plugin-inset-top").textContent =
+                        pluginTopValue;
+                    document.getElementById("plugin-inset-right").textContent =
+                        pluginRightValue;
+                    document.getElementById("plugin-inset-bottom").textContent =
+                        pluginBottomValue;
+                    document.getElementById("plugin-inset-left").textContent =
+                        pluginLeftValue;
+                } else {
+                    pluginSection.style.display = "none";
+                }
+
                 const envDiv = document.createElement("div");
                 envDiv.style.cssText =
                     "position: fixed; top: 0; left: 0; width: 1px; height: 1px; pointer-events: none; opacity: 0; padding-top: env(safe-area-inset-top, 0px); padding-right: env(safe-area-inset-right, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); padding-left: env(safe-area-inset-left, 0px);";
@@ -158,22 +165,27 @@
                     envBottomValue;
                 document.getElementById("env-inset-left").textContent =
                     envLeftValue;
+                const debugInsetsInfo = {
+                    ...(!!window.InsetInjector
+                        ? {
+                              plugin: {
+                                  top: pluginTopValue,
+                                  right: pluginRightValue,
+                                  bottom: pluginBottomValue,
+                                  left: pluginLeftValue,
+                              },
+                          }
+                        : {}),
+                    browser: {
+                        top: envTopValue,
+                        right: envRightValue,
+                        bottom: envBottomValue,
+                        left: envLeftValue,
+                    },
+                };
                 console.log(
                     "Safe Area Insets Comparison:",
-                    JSON.stringify({
-                        plugin: {
-                            top: pluginTopValue,
-                            right: pluginRightValue,
-                            bottom: pluginBottomValue,
-                            left: pluginLeftValue,
-                        },
-                        browser: {
-                            top: envTopValue,
-                            right: envRightValue,
-                            bottom: envBottomValue,
-                            left: envLeftValue,
-                        },
-                    }),
+                    JSON.stringify(debugInsetsInfo),
                 );
             }
             function updateUserAgent() {
@@ -236,14 +248,13 @@
                     ) {
                         window.statusbar.visible = !window.statusbar.visible;
                         if (window.statusbar.visible) {
-                            showStatus("Status Bar Hidden");
+                            console.log("Status Bar Hidden");
                         } else {
-                            showStatus("Status Bar Shown");
+                            console.log("Status Bar Shown");
                         }
                     } else {
-                        showStatus(
+                        console.log(
                             "cordova built-in statusbar plugin not available",
-                            true,
                         );
                     }
                 });
