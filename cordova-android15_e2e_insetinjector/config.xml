@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<widget
+    id="com.outsystems.rd.jag.systembars"
+    version="1.0.0"
+    xmlns="http://www.w3.org/ns/widgets"
+    xmlns:cdv="http://cordova.apache.org/ns/1.0"
+>
+    <name>SystembarsTest</name>
+    <description>Sample Apache Cordova App</description>
+    <author email="dev@cordova.apache.org" href="https://cordova.apache.org">
+        Apache Cordova Team
+    </author>
+    <content src="index.html" />
+    <allow-intent href="http://*/*" />
+    <allow-intent href="https://*/*" />
+
+    <platform name="android">
+        <preference name="android-minSdkVersion" value="28" />
+        <preference name="android-targetSdkVersion" value="36" />
+        <preference name="android-compileSdkVersion" value="36" />
+        <preference name="android-buildToolsVersion" value="36.0.0" />
+        <preference name="GradleVersion" value="8.14.3" />
+        <preference name="AndroidGradlePluginVersion" value="8.13.0" />
+
+        <preference name="AndroidEdgeToEdge" value="true" />
+        <preference name="StatusBarBackgroundColor" value="#FFCC00" />
+
+    </platform>
+
+</widget>
