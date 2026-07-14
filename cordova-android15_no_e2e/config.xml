@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8' ?>
 <widget
-    id="com.outsystems.rd.jag.systembars.e2e.insetsinjector"
+    id="com.outsystems.rd.jag.systembars.noe2e"
     version="1.0.0"
     xmlns="http://www.w3.org/ns/widgets"
     xmlns:cdv="http://cordova.apache.org/ns/1.0"
@@ -22,7 +22,7 @@
         <preference name="GradleVersion" value="8.14.3" />
         <preference name="AndroidGradlePluginVersion" value="8.13.0" />
 
-        <preference name="AndroidEdgeToEdge" value="true" />
+        <preference name="AndroidEdgeToEdge" value="false" />
         <preference name="StatusBarBackgroundColor" value="#FFCC00" />
 
     </platform>

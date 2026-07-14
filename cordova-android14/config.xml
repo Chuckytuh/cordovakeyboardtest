@@ -21,8 +21,6 @@
         <preference name="android-buildToolsVersion" value="36.0.0" />
         <preference name="GradleVersion" value="8.14.3" />
         <preference name="AndroidGradlePluginVersion" value="8.13.0" />
-
-        <preference name="AndroidEdgeToEdge" value="true" />
         <preference name="StatusBarBackgroundColor" value="#FFCC00" />
 
     </platform>
