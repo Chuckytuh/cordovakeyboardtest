@@ -18,8 +18,38 @@
         <div id="app">
             <header>
                 <h1>Cordova App</h1>
+                <div id="header-subtitle" class="subtitle">-</div>
             </header>
             <main>
+                <section>
+                    <h2>Running Configuration</h2>
+                    <p>Which project/variant this build was produced from:</p>
+                    <div class="grid-2col-spaced">
+                        <div class="info-card">
+                            <strong>Project</strong>
+                            <div id="info-project" class="value">-</div>
+                        </div>
+                        <div class="info-card">
+                            <strong>App ID</strong>
+                            <div id="info-app-id" class="value">-</div>
+                        </div>
+                        <div class="info-card">
+                            <strong>cordova-android</strong>
+                            <div id="info-cordova-android" class="value">
+                                -
+                            </div>
+                        </div>
+                        <div class="info-card">
+                            <strong>AndroidEdgeToEdge</strong>
+                            <div id="info-edge-to-edge" class="value">-</div>
+                        </div>
+                        <div class="info-card">
+                            <strong>Extra Plugins</strong>
+                            <div id="info-plugins" class="value">-</div>
+                        </div>
+                    </div>
+                </section>
+                <hr />
                 <section>
                     <h2>WebView Information</h2>
                     <div class="input-container">
@@ -111,7 +141,45 @@
             </main>
         </div>
         <script src="cordova.js"></script>
+        <script src="app-info.js" onerror="window.APP_INFO = null;"></script>
         <script>
+            function renderAppInfo() {
+                const info = window.APP_INFO;
+                const source = info ? info : {
+                    projectDir: "-",
+                    appId: "-",
+                    cordovaAndroidVersion:
+                        (window.cordova && window.cordova.version) || "-",
+                    androidEdgeToEdge: "-",
+                    extraPlugins: [
+                        window.InsetInjector
+                            ? "cordova-plugin-inset-injector (detected)"
+                            : null,
+                        window.StatusBar
+                            ? "cordova-plugin-statusbar (detected)"
+                            : null,
+                    ].filter(Boolean),
+                };
+                document.getElementById("info-project").textContent =
+                    source.projectDir;
+                document.getElementById("info-app-id").textContent =
+                    source.appId;
+                document.getElementById(
+                    "info-cordova-android",
+                ).textContent = source.cordovaAndroidVersion;
+                document.getElementById("info-edge-to-edge").textContent =
+                    source.androidEdgeToEdge;
+                document.getElementById("info-plugins").textContent =
+                    source.extraPlugins.length
+                        ? source.extraPlugins.join(", ")
+                        : "none";
+                document.getElementById("header-subtitle").textContent =
+                    source.projectDir + " (" + source.appId + ")";
+                console.log(
+                    "App Info:",
+                    JSON.stringify(info || { fallback: source }),
+                );
+            }
             function updateSafeAreaInsets() {
                 const pluginSection = document.getElementById("plugin-section");
                 if (!!window.InsetInjector) {
@@ -196,6 +264,7 @@
 
             window.addEventListener("DOMContentLoaded", function () {
                 console.log("DOMContentLoaded triggered");
+                renderAppInfo();
                 updateSafeAreaInsets();
                 updateUserAgent();
             });
@@ -217,6 +286,7 @@
             });
             document.addEventListener("deviceready", function () {
                 console.log("deviceready triggered");
+                renderAppInfo();
                 updateSafeAreaInsets();
                 updateUserAgent();
             });
@@ -239,26 +309,54 @@
                 attributeFilter: ["style"],
             });
 
+            function randomHexColor() {
+                const hex = Math.floor(Math.random() * 0xffffff)
+                    .toString(16)
+                    .padStart(6, "0");
+                return "#" + hex;
+            }
+
             document
                 .getElementById("toggle-statusbar")
                 .addEventListener("click", function () {
-                    if (
-                        window.statusbar &&
-                        typeof window.statusbar.visible === "boolean"
-                    ) {
-                        window.statusbar.visible = !window.statusbar.visible;
-                        if (window.statusbar.visible) {
-                            console.log("Status Bar Hidden");
+                    const color = randomHexColor();
+                    if (window.StatusBar) {
+                        // cordova-plugin-statusbar is installed; use its clobber directly.
+                        const willBeVisible = !window.StatusBar.isVisible;
+                        window.StatusBar.backgroundColorByHexString(color);
+                        if (willBeVisible) {
+                            window.StatusBar.show();
                         } else {
-                            console.log("Status Bar Shown");
+                            window.StatusBar.hide();
                         }
+                        console.log(
+                            "StatusBar plugin: visible=" +
+                                willBeVisible +
+                                ", color=" +
+                                color,
+                        );
+                    } else if (
+                        window.statusbar &&
+                        typeof window.statusbar.setBackgroundColor ===
+                            "function"
+                    ) {
+                        // cordova-android 15's built-in SystemBarPlugin clobber (no cordova-plugin-statusbar present).
+                        window.statusbar.setBackgroundColor(color);
+                        window.statusbar.visible = !window.statusbar.visible;
+                        console.log(
+                            "SystemBarPlugin: visible=" +
+                                window.statusbar.visible +
+                                ", color=" +
+                                color,
+                        );
                     } else {
                         console.log(
-                            "cordova built-in statusbar plugin not available",
+                            "no statusbar-capable plugin available (window.statusbar is the read-only browser BarProp)",
                         );
                     }
                 });
 
+            renderAppInfo();
             updateSafeAreaInsets();
         </script>
     </body>
