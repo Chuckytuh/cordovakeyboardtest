@@ -14,7 +14,7 @@
   "license": "Apache-2.0",
   "devDependencies": {
     "cordova": "^13.0.0",
-    "cordova-android": "^15.0.0",
+    "cordova-android": "15.1.0",
     "cordova-plugin-inset-injector": "github:ionic-team/cordova-plugin-inset-injector#v3.0.0"
   },
   "cordova": {
